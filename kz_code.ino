@@ -37,8 +37,6 @@ void loop()
   int sl = digitalRead(sensor_L);
   //Right side infrared sensor //Sensor infra vermelho direito
   int sr = digitalRead(sensor_R);
-  Serial.print("Distancia: ");
-  Serial.println(0.01723 *readUltrasonicDistance(4,7));
   if(sir)
   {
     analogWrite(motorA1,0);
