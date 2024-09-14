@@ -1,20 +1,5 @@
 // C++ code
 //
-//O código para uso do ultrasom foi retirado do Tinkerscad
-long readUltrasonicDistance(int triggerPin, int echoPin)
-{
-  pinMode(triggerPin, OUTPUT);  // Clear the trigger
-  digitalWrite(triggerPin, LOW);
-  delayMicroseconds(2);
-  // Sets the trigger pin to HIGH state for 10 microseconds
-  digitalWrite(triggerPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(triggerPin, LOW);
-  pinMode(echoPin, INPUT);
-  // Reads the echo pin, and returns the sound wave travel time in microseconds
-  return pulseIn(echoPin, HIGH);
-}
-
 int motorA1 = 5;
 int motorA2 = 6;
 int motorB1 = 10;
@@ -36,7 +21,7 @@ void setup()
   pinMode(sensor_irR,INPUT);
   pinMode(sensor_irL,INPUT);
   pinMode(sensor_irT,INPUT);
-  delay(2000);
+  delay(1000);
 }
 
 void loop()
@@ -52,6 +37,8 @@ void loop()
   int sl = digitalRead(sensor_L);
   //Right side infrared sensor //Sensor infra vermelho direito
   int sr = digitalRead(sensor_R);
+  Serial.print("Distancia: ");
+  Serial.println(0.01723 *readUltrasonicDistance(4,7));
   if(sir)
   {
     analogWrite(motorA1,0);
@@ -59,7 +46,7 @@ void loop()
     analogWrite(motorB1,0);
     analogWrite(motorB2,255);
     delay(700); 
-    analogWrite(motorA1,255);
+    analogWrite(motorA1,200);
     analogWrite(motorA2,0);
     analogWrite(motorB1,0);
     analogWrite(motorB2,255);
@@ -74,38 +61,39 @@ void loop()
     delay(700); 
     analogWrite(motorA1,0);
     analogWrite(motorA2,255);
-    analogWrite(motorB1,255);
+    analogWrite(motorB1,200);
     analogWrite(motorB2,0);
     delay(600); 
   }
   if (sl == LOW)
   {
-    analogWrite(motorA1,100);
+    analogWrite(motorA1,150);
     analogWrite(motorA2,0);
     analogWrite(motorB1,255);
     analogWrite(motorB2,0);
-    delay(100);
+    delay(200);
   }
   if (sr == LOW)
   {
     analogWrite(motorA1,255);
     analogWrite(motorA2,0);
-    analogWrite(motorB1,100);
+    analogWrite(motorB1,150);
     analogWrite(motorB2,0);  
-    delay(100);
+    delay(200);
   }
-  if(!sit)
+   if(sr == LOW && sl == LOW)
   {
-    analogWrite(motorA1,255);
-    analogWrite(motorA2,0);
-    analogWrite(motorB1,255);
-    analogWrite(motorB2,0);  
+    analogWrite(motorA1,0);
+    analogWrite(motorA2,255);
+    analogWrite(motorB1,0);
+    analogWrite(motorB2,255);  
+    delay(1000);
   }
   else {
     analogWrite(motorA1,0);
-    analogWrite(motorA2,230);
+    analogWrite(motorA2,0);
     analogWrite(motorB1,0);
-    analogWrite(motorB2,255);
+    analogWrite(motorB2,0);
     }
     
   delay(20); // Delay a little bit to improve simulation performance
